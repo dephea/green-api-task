@@ -31,6 +31,10 @@ type TemplateData struct {
 
 func main() {
 	e := echo.New()
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
 	e.GET("/", func(c echo.Context) error {
 		return c.File("static/index.html")
@@ -187,6 +191,8 @@ func main() {
 		return nil
 	})
 
-	e.Logger.Fatal(e.Start("localhost:5000"))
+	addr := fmt.Sprintf(":%s", port)
+
+	e.Logger.Fatal(e.Start(addr))
 
 }
